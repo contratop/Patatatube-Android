@@ -11,7 +11,7 @@ android {
         applicationId = "com.patatatube.mobile"
         minSdk = 24
         targetSdk = 34
-        // ! Version para GitHub Releases !
+        // ! Aquí cambias la versión para que se suba automáticamente a GitHub Releases !
         versionCode = 1
         versionName = "1.0.0"
 
@@ -25,6 +25,18 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            val keystoreFile = file("release.keystore")
+            if (keystoreFile.exists()) {
+                storeFile = keystoreFile
+                storePassword = System.getenv("KEYSTORE_PASSWORD") ?: "patatapassword"
+                keyAlias = System.getenv("KEY_ALIAS") ?: "patatakey"
+                keyPassword = System.getenv("KEY_PASSWORD") ?: "patatapassword"
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -32,7 +44,14 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            if (file("release.keystore").exists()) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
+    }
+
+    packaging {
+        jniLibs.useLegacyPackaging = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

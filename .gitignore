@@ -44,7 +44,7 @@ captures/
 .idea/dictionaries
 .idea/libraries
 
-# Keystore files (CRÍTICO: Para no subir claves privadas si firmas la app en el futuro)
+# Keystore files
 *.jks
 *.keystore
 
