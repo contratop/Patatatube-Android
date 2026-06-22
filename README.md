@@ -2,7 +2,7 @@
   <img src="app/src/main/res/drawable/app_icon.png" width="200" height="200" alt="Patatatube Logo">
   <h1>🥔 Patatatube Android 🎧</h1>
   <p><b>¡Descarga cualquier vídeo o audio de tus plataformas favoritas con estilo!</b></p>
-  <p><img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Android"> <img src="https://img.shields.io/badge/Kotlin-B125EA?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin"> <img src="https://img.shields.io/badge/Jetpack%20Compose-4285F4?style=for-the-badge&logo=android&logoColor=white" alt="Jetpack Compose"> <img src="https://img.shields.io/badge/yt--dlp-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="yt-dlp"></p>
+  <p><img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Android"> <img src="https://img.shields.io/badge/Kotlin-B125EA?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin"> <img src="https://img.shields.io/badge/Jetpack%20Compose-4285F4?style=for-the-badge&logo=android&logoColor=white" alt="Jetpack Compose"> <img src="https://img.shields.io/badge/yt--dlp-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="yt-dlp"> <img src="https://img.shields.io/badge/License-GPLv3-blue?style=for-the-badge" alt="GPLv3 License"></p>
 </div>
 
 ---
@@ -58,6 +58,10 @@
 ¡Patatatube tiene secretos escondidos!
 - **Actualizar yt-dlp:** Mantén pulsado el botón de la Terminal (`>_`) durante medio segundo para forzar una actualización del motor de descargas en segundo plano.
 - **Créditos:** Mantén pulsado el botón de Temas (🎨) para ver quiénes son las mentes creativas detrás del diseño y la programación.
+
+## 📄 Licencia
+
+Este proyecto se distribuye bajo la licencia **GNU GPLv3**. Esto significa que Patatatube es y siempre será libre y de código abierto. Eres libre de usarlo, estudiarlo, compartirlo y modificarlo, siempre y cuando cualquier trabajo derivado también sea de código abierto bajo esta misma licencia. ¡Larga vida al software libre!
 
 ---
 <div align="center">
