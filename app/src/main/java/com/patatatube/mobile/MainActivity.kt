@@ -185,6 +185,14 @@ fun PatatatubeScreen(
         }
     }
     
+    LaunchedEffect(Unit) {
+        val prefs = context.getSharedPreferences("patatatube_prefs", Context.MODE_PRIVATE)
+        if (prefs.getBoolean("is_first_run", true)) {
+            prefs.edit().putBoolean("is_first_run", false).apply()
+            updateYtdlp()
+        }
+    }
+    
     // Real Download Logic
     fun startDownload(type: String) {
         if (url.isBlank()) {

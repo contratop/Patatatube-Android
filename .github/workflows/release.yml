@@ -57,19 +57,16 @@ jobs:
           tag_name: v${{ env.APP_VERSION }}
           name: "Patatatube Mobile ${{ env.APP_VERSION }}"
           body: |
-            ¡El descargador definitivo para tu Android ha llegado! 🥔🎧
+            ¡Patatatube se actualiza y mejora! 🥔🚀
             
-            **¿Qué trae esta versión?**
-            - 🎨 **Interfaz Renovada:** Construida 100% en Jetpack Compose con temas personalizables (Claro, Oscuro y Poke).
-            - 🚀 **Motor Potenciado:** Descargas a la velocidad de la luz gracias a la integración nativa de `yt-dlp`.
-            - 🔗 **Compartir y Listo:** Envía enlaces directamente desde el menú "Compartir" de YouTube, TikTok, Twitter y más, sin copiar ni pegar.
-            - 🖥️ **Modo Hacker:** Terminal embebida en la propia app para que veas el log en tiempo real y no te pierdas nada.
-            - 🔋 **Segundo Plano Real:** Tus descargas no se cortarán aunque minimices la aplicación o apagues la pantalla.
+            **Novedades en la versión 1.0.1:**
+            - 🛠️ **Bugfix Crítico:** Solucionado el error `"instance not initialized"` que impedía usar el motor de descargas en la versión Release a causa de la extracción de librerías nativas.
+            - 🤖 **Auto-Actualización Inteligente:** Ahora, la primera vez que abras la app, buscará e instalará automáticamente la versión más reciente del motor `yt-dlp` en segundo plano para garantizar que todas las descargas funcionen desde el minuto uno.
             
             **Instalación:**
             1. Descarga el archivo `Patatatube-v${{ env.APP_VERSION }}.apk` de los assets de abajo.
-            2. Instálalo en tu dispositivo Android.
-            3. ¡Empieza a descargar con estilo!
+            2. Instálalo en tu dispositivo Android (puedes instalarlo encima de la versión 1.0.0 sin problemas).
+            3. ¡A descargar!
           files: Patatatube-v${{ env.APP_VERSION }}.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
