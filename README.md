@@ -9,15 +9,15 @@
 
 ## ✨ Características
 
-- 🎥 **Descargas Multidispositivo:** Basado en el potente motor de `yt-dlp`, soportando YouTube, TikTok, Twitter, y cientos de plataformas más.
-- 🎵 **Formatos Flexibles:** Descarga en MP4 (Mejor calidad de Vídeo) o MP3 (Audio).
-- 🎨 **Interfaz Moderna:** Diseño fluido y dinámico construido 100% en Jetpack Compose con animaciones y Ripple effects.
-- 🌸 **Temas Personalizados:** Cambia entre el modo Oscuro elegante y el tema ultra-kawaii *Poke*.
-- 🖥️ **Terminal Integrada:** ¡Monitoriza lo que pasa bajo el capó! Una consola embebida que te muestra el log en tiempo real de `yt-dlp`.
-- ⚡ **Descargas en Segundo Plano:** Foreground Service implementado para que tus descargas no se corten al minimizar la app.
-- 🚀 **Actualizaciones In-App:** Easter Egg exclusivo para actualizar los binarios de `yt-dlp` directamente desde la app.
-- 🔗 **Compartir Directo:** ¡No hace falta copiar y pegar! Usa el botón "Compartir" en YouTube, TikTok o cualquier app y selecciona Patatatube para enviar el enlace mágicamente.
-
+- 🎨 **Diseño Moderno:** Interfaz 100% nativa construida con Jetpack Compose y Material 3.
+- 🌗 **Temas Personalizados:** Elige entre el tema Oscuro por defecto, un tema Claro, ¡o el exclusivo y vibrante tema **Poke** rosa/lila!
+- ⚡ **Motor Potenciado:** Descargas veloces y estables impulsadas por la librería líder `yt-dlp`.
+- 🎶 **Metadatos y Carátulas:** Descarga canciones con sus metadatos internos y su miniatura cuadrada original incrustada perfectamente como carátula de disco.
+- 🔗 **Integración con Android:** Olvídate de copiar y pegar. Usa el botón "Compartir" en la app oficial de YouTube o TikTok y envíalo directamente a Patatatube.
+- 📱 **Descargas en Segundo Plano:** Las descargas continúan sin inmutarse aunque minimices la aplicación, gracias a su sistema de servicios en primer plano.
+- 🔄 **Comprobador de Actualizaciones:** Mantén pulsada la versión abajo en el centro para buscar e instalar nuevas actualizaciones directamente desde la app.
+- 🖥️ **Terminal Integrada:** Botón flotante para abrir una consola estilo "hacker" y ver el progreso y los registros en tiempo real.
+- 🚀 **Auto-Actualización del Motor:** Al instalar la app, el motor de descargas busca automáticamente la última versión compatible para estar siempre al día con los cambios de YouTube.
 ## 📸 Capturas de Pantalla
 
 <p align="center">

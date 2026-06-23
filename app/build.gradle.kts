@@ -12,8 +12,8 @@ android {
         minSdk = 24
         targetSdk = 34
         // ! Aquí cambias la versión para que se suba automáticamente a GitHub Releases !
-        versionCode = 2
-        versionName = "1.0.1"
+        versionCode = 3
+        versionName = "1.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

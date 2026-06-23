@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Audiotrack
@@ -71,6 +72,8 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.TextButton
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
+
+enum class UpdateCheckState { IDLE, LOADING, AVAILABLE, UP_TO_DATE, ERROR }
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -170,6 +173,51 @@ fun PatatatubeScreen(
     val lastDownloadedFilePath by DownloadManager.lastDownloadedFilePath.collectAsState()
     val lastDownloadedFile = lastDownloadedFilePath?.let { File(it) }
     var showCredits by remember { mutableStateOf(false) }
+
+    var showUpdateModal by remember { mutableStateOf(false) }
+    var updateCheckState by remember { mutableStateOf(UpdateCheckState.IDLE) }
+    var latestReleaseName by remember { mutableStateOf("") }
+    var latestReleaseUrl by remember { mutableStateOf("") }
+
+    fun checkUpdateFromGithub() {
+        updateCheckState = UpdateCheckState.LOADING
+        coroutineScope.launch(Dispatchers.IO) {
+            try {
+                val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
+                val currentVersion = packageInfo.versionName ?: "1.0.0"
+                
+                val urlObj = java.net.URL("https://api.github.com/repos/contratop/Patatatube-Android/releases/latest")
+                val connection = urlObj.openConnection() as java.net.HttpURLConnection
+                connection.requestMethod = "GET"
+                connection.setRequestProperty("Accept", "application/vnd.github.v3+json")
+                connection.connectTimeout = 5000
+                connection.readTimeout = 5000
+
+                if (connection.responseCode == 200) {
+                    val response = connection.inputStream.bufferedReader().readText()
+                    val json = org.json.JSONObject(response)
+                    val tagName = json.getString("tag_name").replace("v", "")
+                    val name = json.getString("name")
+                    val htmlUrl = json.getString("html_url")
+                    
+                    withContext(Dispatchers.Main) {
+                        if (tagName != currentVersion) {
+                            latestReleaseName = name
+                            latestReleaseUrl = htmlUrl
+                            updateCheckState = UpdateCheckState.AVAILABLE
+                        } else {
+                            updateCheckState = UpdateCheckState.UP_TO_DATE
+                        }
+                    }
+                } else {
+                    withContext(Dispatchers.Main) { updateCheckState = UpdateCheckState.ERROR }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) { updateCheckState = UpdateCheckState.ERROR }
+            }
+        }
+    }
 
     fun updateYtdlp() {
         coroutineScope.launch(Dispatchers.Main) {
@@ -470,6 +518,28 @@ fun PatatatubeScreen(
             Spacer(modifier = Modifier.height(72.dp)) // Extra space so FABs don't overlap
         }
 
+        // Version Number (Bottom Center)
+        val packageInfo = try {
+            context.packageManager.getPackageInfo(context.packageName, 0)
+        } catch (e: Exception) { null }
+        val versionName = packageInfo?.versionName ?: "1.0.0"
+
+        Text(
+            text = "v$versionName",
+            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+            fontSize = 12.sp,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 32.dp)
+                .combinedClickable(
+                    onClick = {},
+                    onLongClick = {
+                        showUpdateModal = true
+                        updateCheckState = UpdateCheckState.IDLE
+                    }
+                )
+        )
+
         // Terminal Toggle FAB (Bottom Left)
         Box(
             modifier = Modifier
@@ -517,6 +587,58 @@ fun PatatatubeScreen(
                 },
                 confirmButton = {
                     TextButton(onClick = { showCredits = false }) { Text("Cerrar") }
+                }
+            )
+        }
+
+        if (showUpdateModal) {
+            AlertDialog(
+                onDismissRequest = { 
+                    if (updateCheckState != UpdateCheckState.LOADING) {
+                        showUpdateModal = false 
+                    }
+                },
+                title = { 
+                    Text(
+                        when(updateCheckState) {
+                            UpdateCheckState.IDLE -> "Buscar Actualización"
+                            UpdateCheckState.LOADING -> "Buscando..."
+                            UpdateCheckState.AVAILABLE -> "¡Nueva Versión!"
+                            UpdateCheckState.UP_TO_DATE -> "Actualizado"
+                            UpdateCheckState.ERROR -> "Error"
+                        }
+                    ) 
+                },
+                text = {
+                    when(updateCheckState) {
+                        UpdateCheckState.IDLE -> Text("¿Quieres buscar la última versión en GitHub?")
+                        UpdateCheckState.LOADING -> {
+                            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                                CircularProgressIndicator()
+                            }
+                        }
+                        UpdateCheckState.AVAILABLE -> Text("Hay una nueva versión disponible: $latestReleaseName\n\n¿Quieres descargarla ahora?")
+                        UpdateCheckState.UP_TO_DATE -> Text("Ya tienes la última versión instalada.")
+                        UpdateCheckState.ERROR -> Text("Hubo un problema al conectar con GitHub. Inténtalo más tarde.")
+                    }
+                },
+                confirmButton = {
+                    if (updateCheckState == UpdateCheckState.IDLE) {
+                        TextButton(onClick = { checkUpdateFromGithub() }) { Text("Confirmar") }
+                    } else if (updateCheckState == UpdateCheckState.AVAILABLE) {
+                        TextButton(onClick = {
+                            val urlIntent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(latestReleaseUrl))
+                            context.startActivity(urlIntent)
+                            showUpdateModal = false
+                        }) { Text("Descargar") }
+                    } else if (updateCheckState != UpdateCheckState.LOADING) {
+                        TextButton(onClick = { showUpdateModal = false }) { Text("Cerrar") }
+                    }
+                },
+                dismissButton = {
+                    if (updateCheckState == UpdateCheckState.IDLE || updateCheckState == UpdateCheckState.AVAILABLE) {
+                        TextButton(onClick = { showUpdateModal = false }) { Text("Cancelar") }
+                    }
                 }
             )
         }

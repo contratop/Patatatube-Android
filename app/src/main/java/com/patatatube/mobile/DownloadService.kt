@@ -47,6 +47,9 @@ class DownloadService : Service() {
                 if (type == "Audio") {
                     request.addOption("-x")
                     request.addOption("--audio-format", "mp3")
+                    request.addOption("--embed-thumbnail")
+                    request.addOption("--embed-metadata")
+                    request.addOption("--postprocessor-args", "ThumbnailsConvertor:-vf crop='min(iw,ih)':'min(iw,ih)'")
                 } else {
                     request.addOption("-f", "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best")
                 }

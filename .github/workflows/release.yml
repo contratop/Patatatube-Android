@@ -57,16 +57,18 @@ jobs:
           tag_name: v${{ env.APP_VERSION }}
           name: "Patatatube Mobile ${{ env.APP_VERSION }}"
           body: |
-            ¡Patatatube se actualiza y mejora! 🥔🚀
+            ¡Patatatube da el gran salto a la versión 1.1! 🥔🔥
             
-            **Novedades en la versión 1.0.1:**
-            - 🛠️ **Bugfix Crítico:** Solucionado el error `"instance not initialized"` que impedía usar el motor de descargas en la versión Release a causa de la extracción de librerías nativas.
-            - 🤖 **Auto-Actualización Inteligente:** Ahora, la primera vez que abras la app, buscará e instalará automáticamente la versión más reciente del motor `yt-dlp` en segundo plano para garantizar que todas las descargas funcionen desde el minuto uno.
+            **Novedades y Características en la 1.1.0:**
+            - 🎶 **Audios con Carátula Original:** Ahora al descargar música o audio, la app incrusta automáticamente la miniatura cuadrada original y los metadatos de la plataforma. ¡Perfecto para tu reproductor de música!
+            - 🔄 **Comprobador de Actualizaciones Integrado:** Mantén pulsado el número de versión en la parte inferior de la pantalla principal para buscar e instalar nuevas versiones directamente desde la app.
+            - 🤖 **Auto-Actualización Inteligente:** La primera vez que abras la app, el motor `yt-dlp` se actualizará automáticamente en segundo plano para garantizar la mejor compatibilidad de descargas.
+            - 🛠️ **Corrección de Errores:** Solucionado el fallo `"instance not initialized"` en dispositivos modernos causado por la compresión nativa de librerías.
             
             **Instalación:**
             1. Descarga el archivo `Patatatube-v${{ env.APP_VERSION }}.apk` de los assets de abajo.
-            2. Instálalo en tu dispositivo Android (puedes instalarlo encima de la versión 1.0.0 sin problemas).
-            3. ¡A descargar!
+            2. Instálalo en tu dispositivo Android (puedes instalarlo encima de versiones anteriores).
+            3. ¡A descargar con estilo!
           files: Patatatube-v${{ env.APP_VERSION }}.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
