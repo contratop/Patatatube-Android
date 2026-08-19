@@ -31,7 +31,7 @@
 - **Lenguaje:** Kotlin
 - **UI:** Jetpack Compose (Material Design 3)
 - **Asincronía:** Coroutines & StateFlow
-- **Motor de Descarga:** [youtubedl-android](https://github.com/yausername/youtubedl-android) (Wrapper de `yt-dlp` para Android)
+- **Motor de Descarga:** [youtubedl-android](https://github.com/dewijones92/youtubedl-android) (Wrapper de `yt-dlp` para Android)
 - **Arquitectura:** Patrón Singleton para el Estado + Foreground Services.
 
 ## 🚀 Instalación y Compilación

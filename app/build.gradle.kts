@@ -85,9 +85,9 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
     
-    val youtubedlAndroid = "0.18.1"
-    implementation("io.github.junkfood02.youtubedl-android:library:$youtubedlAndroid")
-    implementation("io.github.junkfood02.youtubedl-android:ffmpeg:$youtubedlAndroid")
+    val youtubedlAndroid = "v2026.08.04.234419-api23"
+    implementation("com.github.dewijones92.youtubedl-android:library:$youtubedlAndroid")
+    implementation("com.github.dewijones92.youtubedl-android:ffmpeg:$youtubedlAndroid")
     
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
