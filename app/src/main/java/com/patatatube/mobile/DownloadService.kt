@@ -19,6 +19,8 @@ import java.io.File
 class DownloadService : Service() {
     private val serviceScope = CoroutineScope(Dispatchers.IO + Job())
     private val NOTIFICATION_ID = 1234
+    private val DESKTOP_USER_AGENT =
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
     
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -34,6 +36,7 @@ class DownloadService : Service() {
         startForeground(NOTIFICATION_ID, createNotification("Patatatube: Descargando $type", "Preparando...", -1, true))
         
         serviceScope.launch {
+            var sawHttp403 = false
             try {
                 val tmpDir = File(cacheDir, "yt_tmp")
                 if (tmpDir.exists()) tmpDir.deleteRecursively()
@@ -43,6 +46,10 @@ class DownloadService : Service() {
                 request.addOption("--no-playlist")
                 request.addOption("--playlist-items", "1")
                 request.addOption("-o", "${tmpDir.absolutePath}/%(title)s.%(ext)s")
+                request.addOption("--no-warnings")
+                request.addOption("--ignore-errors")
+                request.addOption("--user-agent", DESKTOP_USER_AGENT)
+                request.addOption("--add-header", "User-Agent: $DESKTOP_USER_AGENT")
                 
                 if (type == "Audio") {
                     request.addOption("-x")
@@ -61,6 +68,9 @@ class DownloadService : Service() {
                     DownloadManager.progress.value = p / 100f
                     updateNotification("Patatatube: Descargando $type", "Progreso: ${p.toInt()}%", p.toInt(), false)
                     if (!line.isNullOrBlank()) {
+                        if (line.contains("403", ignoreCase = true) || line.contains("forbidden", ignoreCase = true)) {
+                            sawHttp403 = true
+                        }
                         DownloadManager.addLog(line)
                     }
                 }
@@ -78,6 +88,9 @@ class DownloadService : Service() {
                         finalFile = dest
                     }
                 }
+                if (finalFile == null) {
+                    throw IllegalStateException("No se generó ningún archivo de salida.")
+                }
                 tmpDir.deleteRecursively()
                 
                 DownloadManager.progress.value = 1f
@@ -92,9 +105,18 @@ class DownloadService : Service() {
             } catch (e: Exception) {
                 if (e.message?.contains("Process destroyed") == true) return@launch
                 DownloadManager.downloadState.value = DownloadState.ERROR
-                DownloadManager.addLog("Error crítico: El enlace no es válido o ha sido rechazado por yt-dlp.")
+                val isHttp403 = sawHttp403 ||
+                    e.message?.contains("403", ignoreCase = true) == true ||
+                    e.message?.contains("forbidden", ignoreCase = true) == true
+                if (isHttp403) {
+                    DownloadManager.addLog("Error 403 Forbidden: YouTube/TikTok rechazó la solicitud HTTP.")
+                    DownloadManager.addLog("Sugerencia: intenta actualizar yt-dlp y usa cookies/proxy si el bloqueo persiste.")
+                    updateNotification("Error 403", "Bloqueo del servidor (prueba cookies/proxy).", -1, false)
+                } else {
+                    DownloadManager.addLog("Error crítico: El enlace no es válido o ha sido rechazado por yt-dlp.")
+                    updateNotification("Error de descarga", "Enlace no válido o rechazado.", -1, false)
+                }
                 DownloadManager.addLog("Detalle: ${e.message}")
-                updateNotification("Error de descarga", "Enlace no válido o rechazado.", -1, false)
                 stopForeground(STOP_FOREGROUND_DETACH)
                 stopSelf()
             }
