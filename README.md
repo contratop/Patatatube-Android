@@ -1,69 +1,121 @@
 <div align="center">
-  <img src="app/src/main/res/drawable/app_icon.png" width="200" height="200" alt="Patatatube Logo">
-  <h1>🥔 Patatatube Android 🎧</h1>
-  <p><b>¡Descarga cualquier vídeo o audio de tus plataformas favoritas con estilo!</b></p>
-  <p><img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Android"> <img src="https://img.shields.io/badge/Kotlin-B125EA?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin"> <img src="https://img.shields.io/badge/Jetpack%20Compose-4285F4?style=for-the-badge&logo=android&logoColor=white" alt="Jetpack Compose"> <img src="https://img.shields.io/badge/yt--dlp-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="yt-dlp"> <img src="https://img.shields.io/badge/License-GPLv3-blue?style=for-the-badge" alt="GPLv3 License"></p>
+  <img src="app/src/main/res/drawable/app_icon.png" width="180" height="180" alt="Patatatube Logo">
+  
+  # 🥔 Patatatube Android 🎧
+  
+  **El descargador multimedia definitivo para Android: potente, libre, inmune a los bloqueos de YouTube y con un estilazo único.**
+
+  [![GitHub Release](https://img.shields.io/github/v/release/contratop/Patatatube-Android?style=for-the-badge&color=e67e22&label=Release)](https://github.com/contratop/Patatatube-Android/releases/latest)
+  [![Build Status](https://img.shields.io/github/actions/workflow/status/contratop/Patatatube-Android/release.yml?style=for-the-badge&label=Build)](https://github.com/contratop/Patatatube-Android/actions)
+  [![Android](https://img.shields.io/badge/Android-7.0%2B-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://android.com)
+  [![Kotlin](https://img.shields.io/badge/Kotlin-B125EA?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org)
+  [![Compose](https://img.shields.io/badge/Jetpack%20Compose-Material%203-4285F4?style=for-the-badge&logo=jetpackcompose&logoColor=white)](https://developer.android.com/jetpack/compose)
+  [![yt-dlp](https://img.shields.io/badge/yt--dlp-Nightly-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://github.com/yt-dlp/yt-dlp)
+  [![License](https://img.shields.io/badge/License-GPLv3-2980b9?style=for-the-badge)](LICENSE)
+
+  <br/>
+  
+  [📥 **Descargar Último APK (v1.2.0)**](https://github.com/contratop/Patatatube-Android/releases/latest) • [✨ Novedades](#-novedades-destacadas-v120) • [📸 Capturas](#-capturas-de-pantalla) • [🛠️ Compilación](#️-compilación-local)
 </div>
 
 ---
 
-## ✨ Características
+## ⚡ Novedades Destacadas (v1.2.0)
 
-- 🎨 **Diseño Moderno:** Interfaz 100% nativa construida con Jetpack Compose y Material 3.
-- 🌗 **Temas Personalizados:** Elige entre el tema Oscuro por defecto, un tema Claro, ¡o el exclusivo y vibrante tema **Poke** rosa/lila!
-- ⚡ **Motor Potenciado:** Descargas veloces y estables impulsadas por la librería líder `yt-dlp`.
-- 🎶 **Metadatos y Carátulas:** Descarga canciones con sus metadatos internos y su miniatura cuadrada original incrustada perfectamente como carátula de disco.
-- 🔗 **Integración con Android:** Olvídate de copiar y pegar. Usa el botón "Compartir" en la app oficial de YouTube o TikTok y envíalo directamente a Patatatube.
-- 📱 **Descargas en Segundo Plano:** Las descargas continúan sin inmutarse aunque minimices la aplicación, gracias a su sistema de servicios en primer plano.
-- 🔄 **Comprobador de Actualizaciones:** Mantén pulsada la versión abajo en el centro para buscar e instalar nuevas actualizaciones directamente desde la app.
-- 🖥️ **Terminal Integrada:** Botón flotante para abrir una consola estilo "hacker" y ver el progreso y los registros en tiempo real.
-- 🚀 **Auto-Actualización del Motor:** Al instalar la app, el motor de descargas busca automáticamente la última versión compatible para estar siempre al día con los cambios de YouTube.
+- 🛡️ **Bypass de YouTube SABR & Fix 403 Forbidden:** Implementación del cliente `visionos` en `yt-dlp` que neutraliza las recientes restricciones de streaming y comprobaciones de integridad de Google sin requerir JavaScript externo.
+- 📦 **Motor Nightly de Serie:** Empaquetado interno de la versión más reciente de `yt-dlp`, con auto-extracción automática al actualizar la app para no depender de descargas externas iniciales.
+- 🔄 **Actualizador del Motor con Canal NIGHTLY:** Mantén pulsado el botón de terminal para actualizar el binario al instante desde el canal Nightly oficial de `yt-dlp` (o Stable como respaldo).
+- 🎬 **Muxing Universal con FFmpeg:** Descarga automáticamente los mejores streams independientes de vídeo y audio y los ensambla limpiamente en un contenedor `.mp4`.
+
+---
+
+## ✨ Características Principales
+
+### 🚀 Descargas Potentes y Fiables
+* **Descarga de Vídeo:** Obtén la mejor calidad disponible (1080p, 2K, 4K) combinando pistas de vídeo y audio de alta fidelidad.
+* **Descarga de Audio MP3/M4A:** Extrae el audio con un solo toque, incrustando automáticamente metadatos (título, artista, álbum) y la miniatura original como carátula de disco.
+* **Segundo Plano Real:** Olvídate de quedarte con la app abierta. Patatatube utiliza *Foreground Services* nativos de Android con notificación persistente para que tus descargas sigan vivas aunque bloquees la pantalla o cambies de app.
+
+### 🎨 Diseño y Experiencia de Usuario
+* **100% Jetpack Compose & Material 3:** Animaciones fluidas, controles táctiles cuidados y diseño moderno y limpio.
+* **Paletas de Temas:**
+  * 🌙 **Dark Mode:** Elegante y perfecto para pantallas AMOLED.
+  * ☀️ **Light Mode:** Claro, fresco y legible bajo la luz del día.
+  * 🌸 **Poke Theme:** Vibrante paleta rosa/lila con personalidad propia.
+* **Integración con el Sistema:** Envía enlaces directamente desde la app de YouTube, TikTok, Twitter/X o cualquier navegador pulsando el botón **Compartir** en tu móvil.
+* **Terminal Hacker Integrada:** Botón flotante para inspeccionar en tiempo real los logs y la salida estándar de `yt-dlp` y `ffmpeg`.
+
+---
+
 ## 📸 Capturas de Pantalla
 
-<p align="center">
-  <img src="screenshots/screenshot_dark.jpg" width="30%">
-  <img src="screenshots/screenshot_light.jpg" width="30%">
-  <img src="screenshots/screenshot_pink.jpg" width="30%">
-</p>
+<div align="center">
+  <img src="screenshots/screenshot_dark.jpg" width="31%" alt="Modo Oscuro" />
+  &nbsp;&nbsp;
+  <img src="screenshots/screenshot_light.jpg" width="31%" alt="Modo Claro" />
+  &nbsp;&nbsp;
+  <img src="screenshots/screenshot_pink.jpg" width="31%" alt="Modo Poke" />
+</div>
 
-## 🛠️ Tecnologías Utilizadas
+---
 
-- **Lenguaje:** Kotlin
-- **UI:** Jetpack Compose (Material Design 3)
-- **Asincronía:** Coroutines & StateFlow
-- **Motor de Descarga:** [youtubedl-android](https://github.com/yausername/youtubedl-android) (Wrapper de `yt-dlp` para Android)
-- **Arquitectura:** Patrón Singleton para el Estado + Foreground Services.
+## 🛠️ Tecnologías y Arquitectura
 
-## 🚀 Instalación y Compilación
+* **Lenguaje:** Kotlin 2.0+
+* **Framework UI:** Jetpack Compose + Material 3
+* **Concurrencia:** Kotlin Coroutines & StateFlow reactivo
+* **Motor Multimedia:** [youtubedl-android](https://github.com/yausername/youtubedl-android) con binario optimizado `yt-dlp Nightly`
+* **Transcodificación:** FFmpeg integrado para multiplexación de contenedores y etiquetado ID3/MP4
+* **Servicios del Sistema:** Android Foreground Services con canales de notificación dedicados
 
-### Requisitos Previos
-- Android Studio (Versión Iguana o superior recomendada)
-- JDK 17 o superior.
+---
+
+## 🚀 Instalación y Uso
+
+### Descargar la Aplicación
+1. Ve a la sección de [Releases de GitHub](https://github.com/contratop/Patatatube-Android/releases/latest).
+2. Descarga el archivo `Patatatube-v1.2.0.apk`.
+3. Abre el archivo en tu dispositivo e instálalo (permite la instalación de fuentes desconocidas si tu navegador te lo solicita).
+
+---
+
+## 💻 Compilación Local
+
+### Requisitos
+* **Android Studio:** Ladybug / Iguana o superior.
+* **JDK:** Java 17 (Temurin o OpenJDK).
+* **Android SDK:** API 24 (mínimo) a API 34.
 
 ### Pasos
+```bash
+# 1. Clona el repositorio
+git clone https://github.com/contratop/Patatatube-Android.git
+cd Patatatube-Android
 
-1. Clona este repositorio:
-   ```bash
-   git clone https://github.com/tu-usuario/patatatube-android.git
-   ```
-2. Abre el proyecto en Android Studio.
-3. Conecta tu dispositivo Android (físico o emulador).
-4. Dale al botón de **Run** (`Shift + F10`) o compila desde la terminal:
-   ```bash
-   ./gradlew assembleDebug
-   ```
+# 2. Compila la versión Debug
+./gradlew assembleDebug
 
-## 🤫 Easter Eggs
+# El APK resultante se encontrará en:
+# app/build/outputs/apk/debug/app-debug.apk
+```
 
-¡Patatatube tiene secretos escondidos!
-- **Actualizar yt-dlp:** Mantén pulsado el botón de la Terminal (`>_`) durante medio segundo para forzar una actualización del motor de descargas en segundo plano.
-- **Créditos:** Mantén pulsado el botón de Temas (🎨) para ver quiénes son las mentes creativas detrás del diseño y la programación.
+---
+
+## 🤫 Secretos y Easter Eggs
+
+Patatatube incluye atajos ocultos para usuarios avanzados:
+* ⚡ **Forzar Actualización de yt-dlp:** Mantén presionado el botón flotante de la Terminal (`>_`) durante medio segundo para forzar una sincronización y actualización inmediata del motor contra el canal Nightly.
+* 🎨 **Créditos del Proyecto:** Mantén pulsado el botón de la paleta de Temas (`🎨`) para abrir el modal secreto con los reconocimientos del equipo.
+
+---
 
 ## 📄 Licencia
 
-Este proyecto se distribuye bajo la licencia **GNU GPLv3**. Esto significa que Patatatube es y siempre será libre y de código abierto. Eres libre de usarlo, estudiarlo, compartirlo y modificarlo, siempre y cuando cualquier trabajo derivado también sea de código abierto bajo esta misma licencia. ¡Larga vida al software libre!
+Este proyecto se distribuye bajo la licencia **GNU General Public License v3.0 (GPLv3)**.  
+El código es y será siempre libre y de código abierto. Eres bienvenido a estudiarlo, modificarlo y redistribuirlo respetando los términos de la GPLv3.
 
 ---
+
 <div align="center">
-  <i>Diseñado por <b>pokeinalover</b> | Programado con ❤️ por <b>ContratopDev</b></i>
+  <i>Diseñado con pasión por <b>pokeinalover</b> • Programado con ❤️ por <b>ContratopDev</b></i>
 </div>

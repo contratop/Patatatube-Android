@@ -80,10 +80,45 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         
         try {
+            val prefs = getSharedPreferences("patatatube_prefs", Context.MODE_PRIVATE)
+            val lastAppVersion = prefs.getInt("last_app_version_code", 0)
+            val currentVersionCode = try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    packageManager.getPackageInfo(packageName, 0).longVersionCode.toInt()
+                } else {
+                    @Suppress("DEPRECATION")
+                    packageManager.getPackageInfo(packageName, 0).versionCode
+                }
+            } catch (e: Exception) { 0 }
+
+            val baseDir = File(noBackupFilesDir, "youtubedl-android")
+            val ytdlpDir = File(baseDir, "yt-dlp")
+            val ytdlpBinary = File(ytdlpDir, "yt-dlp")
+
+            // Si es nueva versión o no existe el binario o está vacío, extraer el yt-dlp actualizado
+            if (currentVersionCode > lastAppVersion || !ytdlpBinary.exists() || ytdlpBinary.length() == 0L) {
+                if (!ytdlpDir.exists()) ytdlpDir.mkdirs()
+                resources.openRawResource(R.raw.ytdlp).use { input ->
+                    ytdlpBinary.outputStream().use { output ->
+                        input.copyTo(output)
+                    }
+                }
+                getSharedPreferences("youtubedl-android", Context.MODE_PRIVATE)
+                    .edit()
+                    .putString("dlpVersion", "2026.09.27")
+                    .putString("dlpVersionName", "2026.09.27")
+                    .apply()
+                prefs.edit().putInt("last_app_version_code", currentVersionCode).apply()
+            }
+
             YoutubeDL.getInstance().init(application)
             FFmpeg.getInstance().init(application)
+
+            val currentVer = YoutubeDL.getInstance().version(applicationContext) ?: "2026.09.27"
+            DownloadManager.logs.value = listOf("YoutubeDL ($currentVer) & FFmpeg initialized. Ready.")
         } catch (e: Exception) {
             e.printStackTrace()
+            DownloadManager.addLog("Error inicializando: ${e.message}")
         }
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -219,17 +254,38 @@ fun PatatatubeScreen(
         }
     }
 
-    fun updateYtdlp() {
+    fun updateYtdlp(force: Boolean = true) {
         coroutineScope.launch(Dispatchers.Main) {
-            Toast.makeText(context, "Buscando actualizaciones de yt-dlp...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Actualizando motor yt-dlp...", Toast.LENGTH_SHORT).show()
         }
         coroutineScope.launch(Dispatchers.IO) {
             try {
                 withContext(Dispatchers.Main) { DownloadManager.addLog("Checking for yt-dlp updates...") }
-                val status = YoutubeDL.getInstance().updateYoutubeDL(context, YoutubeDL.UpdateChannel.STABLE)
-                withContext(Dispatchers.Main) { DownloadManager.addLog("Update result: $status") }
+                if (force) {
+                    context.getSharedPreferences("youtubedl-android", Context.MODE_PRIVATE)
+                        .edit()
+                        .remove("dlpVersion")
+                        .remove("dlpVersionName")
+                        .apply()
+                }
+                val status = try {
+                    YoutubeDL.getInstance().updateYoutubeDL(context, YoutubeDL.UpdateChannel.NIGHTLY)
+                } catch (e: Exception) {
+                    withContext(Dispatchers.Main) {
+                        DownloadManager.addLog("Nightly channel failed (${e.message}), trying Stable...")
+                    }
+                    YoutubeDL.getInstance().updateYoutubeDL(context, YoutubeDL.UpdateChannel.STABLE)
+                }
+                val currentVer = YoutubeDL.getInstance().version(context) ?: "actualizado"
+                withContext(Dispatchers.Main) {
+                    DownloadManager.addLog("Update result: $status (Version: $currentVer)")
+                    Toast.makeText(context, "yt-dlp actualizado: $currentVer", Toast.LENGTH_SHORT).show()
+                }
             } catch (e: Exception) {
-                withContext(Dispatchers.Main) { DownloadManager.addLog("Update error: ${e.message}") }
+                withContext(Dispatchers.Main) {
+                    DownloadManager.addLog("Update error: ${e.message}")
+                    Toast.makeText(context, "Error al actualizar: ${e.message}", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

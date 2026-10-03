@@ -55,20 +55,44 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env.APP_VERSION }}
-          name: "Patatatube Mobile ${{ env.APP_VERSION }}"
+          name: "🥔 Patatatube v${{ env.APP_VERSION }} — The Resilient YouTube Edition ⚡"
           body: |
-            ¡Patatatube da el gran salto a la versión 1.1! 🥔🔥
+            ## 🥔 Patatatube Mobile v${{ env.APP_VERSION }} 🎧
             
-            **Novedades y Características en la 1.1.0:**
-            - 🎶 **Audios con Carátula Original:** Ahora al descargar música o audio, la app incrusta automáticamente la miniatura cuadrada original y los metadatos de la plataforma. ¡Perfecto para tu reproductor de música!
-            - 🔄 **Comprobador de Actualizaciones Integrado:** Mantén pulsado el número de versión en la parte inferior de la pantalla principal para buscar e instalar nuevas versiones directamente desde la app.
-            - 🤖 **Auto-Actualización Inteligente:** La primera vez que abras la app, el motor `yt-dlp` se actualizará automáticamente en segundo plano para garantizar la mejor compatibilidad de descargas.
-            - 🛠️ **Corrección de Errores:** Solucionado el fallo `"instance not initialized"` en dispositivos modernos causado por la compresión nativa de librerías.
+            > **¡YouTube ha vuelto a doblar la rodilla!** Esta versión 1.2.0 reconstruye por completo el subsistema de descargas para superar las restricciones recientes impuestas por Google (SABR streaming, 403 Forbidden y bloqueos de PO Tokens).
             
-            **Instalación:**
-            1. Descarga el archivo `Patatatube-v${{ env.APP_VERSION }}.apk` de los assets de abajo.
-            2. Instálalo en tu dispositivo Android (puedes instalarlo encima de versiones anteriores).
-            3. ¡A descargar con estilo!
+            ---
+            
+            ### 🚀 ¿Qué hay de nuevo en esta versión?
+            
+            #### 🛡️ Bypass Definitivo de YouTube (Error 403 / SABR Streaming)
+            - YouTube empezó a exigir streaming adaptativo **SABR** y tokens de integridad en clientes antiguos y web.
+            - Patatatube ahora integra de serie el motor **yt-dlp Nightly**, utilizando el cliente moderno `visionos` que descarga audio y vídeo a máxima velocidad sin bloqueos ni requerir motores de JavaScript externos.
+            
+            #### 📦 Motor yt-dlp Fresco Integrado de Serie
+            - Ya no dependes de que la app descargue el motor tras instalarla: el APK ya viene precargado con la versión **Nightly más reciente**.
+            - Se incluye un detector automático en el arranque: si instalas una nueva versión de Patatatube, el binario del almacenamiento interno se actualiza al instante sin líos de caché.
+            
+            #### 🔄 Actualizador In-App Mejorado & Canal NIGHTLY
+            - El actualizador integrado (manteniendo pulsado el botón `>_` de la terminal) ahora apunta prioritariamente al canal **NIGHTLY**, donde se publican los parches inmediatos ante cualquier cambio de YouTube, con fallback automático a **STABLE**.
+            - Corregido el bug donde la app reportaba falsamente `already_up_to_date` debido a registros antiguos en `SharedPreferences`.
+            
+            #### 🎬 Selector de Vídeo Universal & Remuxing FFmpeg
+            - Ahora selecciona automáticamente la combinación de **mejor vídeo + mejor audio** sin restricciones arbitrarias de formato y utiliza FFmpeg para empaquetarlo limpiamente en un contenedor `.mp4`.
+            - Añadida bandera `--no-update` en las solicitudes para silenciar las molestas advertencias de antigüedad en la consola.
+            
+            ---
+            
+            ### 📲 Instalación
+            
+            1. Descarga el archivo adjunto **`Patatatube-v${{ env.APP_VERSION }}.apk`**.
+            2. Ábrelo en tu teléfono Android e instálalo.
+               > ⚠️ *Nota:* Si tenías instalada una compilación de desarrollo (debug), es posible que Android pida desinstalarla primero debido a la diferencia de certificados de firma.
+            3. ¡Disfruta descargando tus vídeos y música favoritos a máxima calidad! 🥔✨
+            
+            ---
+            
+            *Diseñado con estilo por **pokeinalover** | Desarrollado con ❤️ y mala leche por **ContratopDev***
           files: Patatatube-v${{ env.APP_VERSION }}.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

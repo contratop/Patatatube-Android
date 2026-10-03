@@ -22,6 +22,16 @@ class DownloadService : Service() {
     
     override fun onBind(intent: Intent?): IBinder? = null
 
+    override fun onCreate() {
+        super.onCreate()
+        try {
+            YoutubeDL.getInstance().init(application)
+            com.yausername.ffmpeg.FFmpeg.getInstance().init(application)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent?.action == "STOP_DOWNLOAD") {
             stopDownload()
@@ -42,6 +52,8 @@ class DownloadService : Service() {
                 val request = YoutubeDLRequest(url)
                 request.addOption("--no-playlist")
                 request.addOption("--playlist-items", "1")
+                request.addOption("--no-update")
+                request.addOption("--no-mtime")
                 request.addOption("-o", "${tmpDir.absolutePath}/%(title)s.%(ext)s")
                 
                 if (type == "Audio") {
@@ -50,7 +62,8 @@ class DownloadService : Service() {
                     request.addOption("--embed-thumbnail")
                     request.addOption("--embed-metadata")
                 } else {
-                    request.addOption("-f", "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best")
+                    request.addOption("-f", "bestvideo+bestaudio/best")
+                    request.addOption("--merge-output-format", "mp4")
                 }
                 
                 DownloadManager.downloadState.value = DownloadState.DOWNLOADING
